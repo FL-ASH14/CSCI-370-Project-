@@ -4,7 +4,7 @@ Film Finder is a React Native mobile application. It allows movie enthusiasts to
 
 ## Feature List
 * **Interactive Maps:** Utilizes react-native-maps to render dynamic geospatial markers for filming locations.
-* **Cloud Integration & Persistence:** Integrates with Supabase for secure user authentication and remote data storage.
+* **Cloud Integration:** Integrates with Supabase for secure user authentication and remote data storage.
 * **Notifications:** Implements Expo Notifications to alert users when a location is successfully saved to their profile.
 
 ## Setup & Installation Instructions 
