@@ -9,7 +9,7 @@ Film Finder is a React Native mobile application. It allows movie enthusiasts to
 
 ## Setup & Installation Instructions 
 * **Clone the repository:** git clone (YOUR_GITHUB_REPO_URL) & enter cd FilmFinder. 
-* **Install dependencies:** npm install
+* **Install dependencies:** npm install --legacy-peer-deps
 * **Start the Expo Server:** npx expo start 
 
 ## Environment Variables (.env Requirements)
