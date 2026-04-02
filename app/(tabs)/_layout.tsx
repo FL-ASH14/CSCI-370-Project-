@@ -38,5 +38,5 @@ export default function TabLayout() {
           ),
         }}/>
     </Tabs>
-  ); // end return
-}; // TabLayout
+  ); 
+}; 
