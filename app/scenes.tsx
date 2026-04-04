@@ -94,7 +94,7 @@ const fastFuriousScenes = [
     title: 'Street Racing in Shibuya (Tokyo Drift)',
     location: 'Shibuya, Tokyo, Japan',
     description: 'Iconic scene when Sean drifts his Mitsubishi Evo through a crowd in Shibuya Crossing.',
-    imageurl: 'https://www.sceen-it.com/Service/sceenit/sceen/medium/50977.jpg/nos/.jpg',
+    imageUrl: 'https://www.sceen-it.com/Service/sceenit/sceen/medium/50977.jpg/nos/.jpg',
     coordinate: { latitude: 35.6596, longitude: 139.7006 }
   },
   { // toretto house
@@ -200,21 +200,60 @@ export default function ScenesScreen() {
   return (
     <View style={styles.container}>
       <ScrollView> 
-      <Text style={styles.headerTitle}>Star Wars Locations</Text>
-      <FlatList
-        data={starWarsScenes}
-        keyExtractor={(item) => item.id}
-        renderItem={renderSceneCard}
-        contentContainerStyle={styles.listPadding}
-        showsVerticalScrollIndicator={false}
-      />
-      <FlatList
-        data={harryPotterScenes}
-        keyExtractor={(item) => item.id}
-        renderItem={renderSceneCard}
-        contentContainerStyle={styles.listPadding}
-        showsVerticalScrollIndicator={false}
-      />
+        // star wars
+        <Text style={styles.headerTitle}>Star Wars Locations</Text>
+        <FlatList
+          data={starWarsScenes}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSceneCard}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
+        // harry potter
+        <Text style={styles.headerTitle}>Harry Potter Locations</Text>
+        <FlatList
+          data={harryPotterScenes}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSceneCard}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
+        // the notebook
+        <Text style={styles.headerTitle}>The Notebook Locations</Text>
+        <FlatList
+          data={notebookScenes}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSceneCard}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
+        // fast and furious
+        <Text style={styles.headerTitle}>Fast & Furious Locations</Text>
+        <FlatList
+          data={fastFuriousScenes}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSceneCard}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
+        // truman show
+        <Text style={styles.headerTitle}>Truman Show Locations</Text>
+        <FlatList
+          data={trumanShowScenes}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSceneCard}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
+        // lightning thief
+        <Text style={styles.headerTitle}>Lightning Thief Locations</Text>
+        <FlatList
+          data={lightningThiefScenes}
+          keyExtractor={(item) => item.id}
+          renderItem={renderSceneCard}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
       </ScrollView>
     </View>
   ); // end return
