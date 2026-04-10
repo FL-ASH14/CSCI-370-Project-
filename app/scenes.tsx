@@ -111,7 +111,7 @@ const fastFuriousScenes = [
     location: 'Castiac, California',
     description: 'The last scene shared between Brian and Dom before parting ways.',
     imageUrl: 'https://i.redd.it/v69pvxl9bga41.jpg',
-    coordinate: { latitude: 34.6133, longitude: 118.6534 }
+    coordinate: { latitude: 34.6133, longitude: -118.6534 }
   }
 ]; // end fastFuriousScenes
 
@@ -174,13 +174,47 @@ const lightningThiefScenes = [
 
 export default function ScenesScreen() {
   const router = useRouter();
+  
+  //Read the movie ID that the Home page sent over
+  const { movie } = useLocalSearchParams(); 
+
+  //Setup placeholder variables
+  let displayData = starWarsScenes;
+  let displayTitle = 'Star Wars Locations';
+
+  //if/else logic to match the ID from index.tsx to the right array
+  if (movie === '1') 
+    {
+    displayData = starWarsScenes;
+    displayTitle = 'Star Wars Locations';
+  } 
+  else if (movie === '2') {
+    displayData = harryPotterScenes;
+    displayTitle = 'Harry Potter Locations';
+  } 
+  else if (movie === '3') {
+    displayData = notebookScenes;
+    displayTitle = 'The Notebook Locations';
+  } 
+  else if (movie === '4') {
+    displayData = fastFuriousScenes;
+    displayTitle = 'Fast & Furious Locations';
+  } 
+  else if (movie === '5') {
+    displayData = trumanShowScenes;
+    displayTitle = 'The Truman Show Locations';
+  } 
+  else if (movie === '6') {
+    displayData = lightningThiefScenes;
+    displayTitle = 'Percy Jackson Locations';
+  }
 
   const routeToMapLocation = (lat: number, lng: number) => {
     router.push({
       pathname: '/(tabs)/map',
       params: { lat: lat, lng: lng }
     });
-  }; // end routeToMapLocation
+  };
 
   const renderSceneCard = ({ item }: { item: any }) => (
     <TouchableOpacity 
@@ -195,121 +229,73 @@ export default function ScenesScreen() {
         <Text style={styles.cardDescription}>{item.description}</Text>
       </View>
     </TouchableOpacity>
-  ); // end renderSceneCard
+  );
 
   return (
     <View style={styles.container}>
-      <ScrollView> 
-        // star wars
-        <Text style={styles.headerTitle}>Star Wars Locations</Text>
-        <FlatList
-          data={starWarsScenes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderSceneCard}
-          contentContainerStyle={styles.listPadding}
-          showsVerticalScrollIndicator={false}
-        />
-        // harry potter
-        <Text style={styles.headerTitle}>Harry Potter Locations</Text>
-        <FlatList
-          data={harryPotterScenes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderSceneCard}
-          contentContainerStyle={styles.listPadding}
-          showsVerticalScrollIndicator={false}
-        />
-        // the notebook
-        <Text style={styles.headerTitle}>The Notebook Locations</Text>
-        <FlatList
-          data={notebookScenes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderSceneCard}
-          contentContainerStyle={styles.listPadding}
-          showsVerticalScrollIndicator={false}
-        />
-        // fast and furious
-        <Text style={styles.headerTitle}>Fast & Furious Locations</Text>
-        <FlatList
-          data={fastFuriousScenes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderSceneCard}
-          contentContainerStyle={styles.listPadding}
-          showsVerticalScrollIndicator={false}
-        />
-        // truman show
-        <Text style={styles.headerTitle}>Truman Show Locations</Text>
-        <FlatList
-          data={trumanShowScenes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderSceneCard}
-          contentContainerStyle={styles.listPadding}
-          showsVerticalScrollIndicator={false}
-        />
-        // lightning thief
-        <Text style={styles.headerTitle}>Lightning Thief Locations</Text>
-        <FlatList
-          data={lightningThiefScenes}
-          keyExtractor={(item) => item.id}
-          renderItem={renderSceneCard}
-          contentContainerStyle={styles.listPadding}
-          showsVerticalScrollIndicator={false}
-        />
-      </ScrollView>
+      <Text style={styles.headerTitle}>{displayTitle}</Text>
+      
+      <FlatList
+        data={displayData}
+        keyExtractor={(item) => item.id}
+        renderItem={renderSceneCard}
+        contentContainerStyle={styles.listPadding}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
-  ); // end return
-}; // end ScenesScreen
-
+  );
+};
 
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: '#0F0A18', 
     alignItems: 'center' 
-},
+  },
   headerTitle: { 
     color: '#FF69B4', 
     fontSize: 28, 
     fontWeight: 'bold', 
     marginTop: 20, 
     marginBottom: 20 
-},
+  },
   listPadding: { 
     paddingBottom: 40 
-},
-  cardContainer: { 
-    width: 340, 
-    backgroundColor: '#3e1260', 
-    borderRadius: 15, 
-    marginBottom: 25,
-    overflow: 'hidden',
-},
+  },
+  cardContainer: {
+     width: 340, 
+     backgroundColor: '#3e1260', 
+     borderRadius: 15, 
+     marginBottom: 25, 
+     overflow: 'hidden' 
+    },
   cardImage: { 
     width: '100%', 
     height: 180, 
     borderTopLeftRadius: 15, 
     borderTopRightRadius: 15 
-},
+  },
   cardBanner: { 
     padding: 15, 
     backgroundColor: '#2a0a40', 
     borderBottomLeftRadius: 15, 
     borderBottomRightRadius: 15 
-},
+  },
   cardTitle: { 
     color: 'white', 
     fontSize: 16, 
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
     marginBottom: 4 
-},
+  },
   cardLocation: { 
     color: '#FF69B4', 
     fontSize: 12, 
     marginBottom: 8 
-},
+  },
   cardDescription: { 
     color: 'white', 
     fontSize: 12, 
     opacity: 0.8, 
     lineHeight: 16 
-}
+  }
 });
