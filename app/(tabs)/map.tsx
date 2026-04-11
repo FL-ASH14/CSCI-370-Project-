@@ -5,7 +5,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 
 
 const movieLocations = [
-  // star wars locations (Movie ID: '1')
+  // star wars locations
   { id: 'sw1', 
     movieId: '1', 
     title: 'Death Valley', 
@@ -22,7 +22,7 @@ const movieLocations = [
     coordinate: { latitude: 51.7714, longitude: -10.5398 } 
   },
 
-  // harry potter locations (Movie ID: '2')
+  // harry potter locations 
   { id: 'hp1', 
     movieId: '2', 
     title: 'Alnwick Castle', 
@@ -39,7 +39,7 @@ const movieLocations = [
     coordinate: { latitude: 51.6603, longitude: -5.0651 } 
   },
 
-  // the notebook locations (Movie ID: '3')
+  // the notebook locations 
   { id: 'n1', 
     movieId: '3', 
     title: 'College of Charleston', 
@@ -56,7 +56,7 @@ const movieLocations = [
     coordinate: { latitude: 32.7923, longitude: -79.9388 } 
   },
 
-  // fast and furious (Movie ID: '4')
+  // fast and furious 
   { id: 'ff1', 
     movieId: '4', 
     title: 'Shibuya Crossing', 
@@ -73,7 +73,7 @@ const movieLocations = [
     coordinate: { latitude: 34.6133, longitude: -118.6534 } 
   },
 
-  // truman show (Movie ID: '5')
+  // truman show 
   { id: 'ts1', 
     movieId: '5', 
     title: 'Coleman Beach', 
@@ -90,7 +90,7 @@ const movieLocations = [
     coordinate: { latitude: 30.3217, longitude: -86.1416 } 
   },
   
-  // lightning thief (Movie ID: '6')
+  // lightning thief 
   { id: 'lt1', 
     movieId: '6',
      title: 'Le Westin Hotel', 

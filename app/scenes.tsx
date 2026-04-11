@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useLocalSearchParams } from 'expo-router';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const starWarsScenes = [
@@ -174,9 +175,51 @@ const lightningThiefScenes = [
 
 export default function ScenesScreen() {
   const router = useRouter();
-  
-  //Read the movie ID that the Home page sent over
-  const { movie } = useLocalSearchParams(); 
+  const { movie } = useLocalSearchParams();
+
+  // useState tracks an array of saved location IDs
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  // useEffect runs exactly once when the screen loads to fetch saved data
+  useEffect(() => {
+    loadFavorites();
+  }, []);
+
+  // The Loading Logic (AsyncStorage GET)
+  const loadFavorites = async () => {
+    try {
+      const savedFavs = await AsyncStorage.getItem('userFavorites');
+      if (savedFavs !== null) {
+        setFavorites(JSON.parse(savedFavs));
+      }
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    }
+  };
+
+  // The Saving Logic (AsyncStorage SET)
+  const toggleFavorite = async (sceneId: string) => {
+    try {
+      // Make a copy of the current favorites
+      let updatedFavorites = [...favorites];
+
+      if (updatedFavorites.includes(sceneId)) {
+        // If it's already a favorite remove it 
+        updatedFavorites = updatedFavorites.filter(id => id !== sceneId);
+      } else {
+        // If it's not a favorite then add it to the list
+        updatedFavorites.push(sceneId);
+      }
+
+      // Update the page
+      setFavorites(updatedFavorites);
+
+      await AsyncStorage.setItem('userFavorites', JSON.stringify(updatedFavorites));
+
+    } catch (error) {
+      console.error('Error saving favorite:', error);
+    }
+  };
 
   //Setup placeholder variables
   let displayData = starWarsScenes;
@@ -216,25 +259,41 @@ export default function ScenesScreen() {
     });
   };
 
-  const renderSceneCard = ({ item }: { item: any }) => (
-    <TouchableOpacity 
-      style={styles.cardContainer}
-      onPress={() => routeToMapLocation(item.coordinate.latitude, item.coordinate.longitude)}
-    >
-      <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" />
-      
-      <View style={styles.cardBanner}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardLocation}>{item.location}</Text>
-        <Text style={styles.cardDescription}>{item.description}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  const renderSceneCard = ({ item }: { item: any }) => {
+    const isFavorite = favorites.includes(item.id);
+
+    return (
+      <TouchableOpacity 
+        style={styles.cardContainer}
+        onPress={() => routeToMapLocation(item.coordinate.latitude, item.coordinate.longitude)}
+      >
+        <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" />
+        
+        <View style={styles.cardBanner}>
+            <View style={styles.textColumn}>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.cardLocation}>{item.location}</Text>
+              <Text style={styles.cardDescription}>{item.description}</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.heartButton} 
+              onPress={() => toggleFavorite(item.id)}
+            >
+              <Ionicons 
+                name={isFavorite ? "heart" : "heart-outline"} 
+                size={28} 
+                color="#FF69B4" 
+              />
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>{displayTitle}</Text>
-      
       <FlatList
         data={displayData}
         keyExtractor={(item) => item.id}
@@ -244,7 +303,7 @@ export default function ScenesScreen() {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: { 
@@ -276,10 +335,20 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15 
   },
   cardBanner: { 
+    flexDirection: 'row', 
     padding: 15, 
     backgroundColor: '#2a0a40', 
     borderBottomLeftRadius: 15, 
     borderBottomRightRadius: 15 
+  },
+  textColumn: {
+    flex: 1, 
+    paddingRight: 10,
+  },
+  heartButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 10,
   },
   cardTitle: { 
     color: 'white', 
