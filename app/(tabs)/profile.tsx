@@ -1,4 +1,8 @@
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useRouter, Stack } from "expo-router";
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const favMovies = [
   { id: 'm1', imageUrl: 'https://m.media-amazon.com/images/I/718OJKgQOcL._AC_SL1024_.jpg' },
@@ -20,17 +24,26 @@ const savedLoc = [
   { id: 'l2', imageUrl: 'https://m.media-amazon.com/images/I/91hz3I9r1hL.jpg' },
   { id: 'l3', imageUrl: 'https://m.media-amazon.com/images/I/71i6JuSZUGL.jpg' },
   { id: 'l4', imageUrl: 'https://m.media-amazon.com/images/I/610W-GQy4mL._AC_UF894,1000_QL80_.jpg' }
-] // end svaedLoc
+] // end savedLoc
 
 
 export default function Screen() {
+  const router = useRouter();
+
   return ( 
     <ScrollView style={styles.container}
       contentContainerStyle={{ paddingBottom: 60 }}>
+
+      {/* settings button */}
+      <TouchableOpacity
+        style={styles.settingsButton}
+        onPress={() => router.push("/settings")}>
+          <Ionicons name="settings-outline" size={28} color='#d9a3fb'/>
+      </TouchableOpacity>
       
       {/* user info */}
-      <Text style={styles.userInfoText}>Jane Doe</Text>
-      <Text style={styles.subUserText}>@janedoe</Text>
+      <Text style={styles.nameText}>Jane Doe</Text>
+      <Text style={styles.usernameText}>@janedoe</Text>
       <View style={styles.avatar}>
         <Image
           style={styles.avatar}
@@ -98,13 +111,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#0F0A18', // A dark background similar to your Figma
     paddingTop: 10,
   },
-  userInfoText: {
+  nameText: {
     color: '#FF69B4',
     fontSize: 30,
     fontWeight: 'bold',
     alignSelf: 'center',
   },
-  subUserText: {
+  usernameText: {
     color: '#a26a86',
     fontSize: 17,
     alignSelf: 'center'
@@ -139,5 +152,14 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 20,
+  },
+  settingsButton: {
+    position: 'absolute',
+    top: 5,
+    right: 15,
+    zIndex: 100
+  },
+  settingsIcon: {
+    fontSize: 26
   }
 });

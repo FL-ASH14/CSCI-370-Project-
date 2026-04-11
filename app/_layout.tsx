@@ -5,14 +5,21 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen 
-  name="scenes" 
-  options={{ 
-    headerTitle: 'Movie Scenes', 
-    headerStyle: { backgroundColor: '#0F0A18' }, 
-    headerTintColor: '#FF69B4',
-    headerBackTitle: 'Back' 
-  }} 
-/>
+        name="scenes" 
+        options={{ 
+        headerTitle: 'Movie Scenes', 
+        headerStyle: { backgroundColor: '#0F0A18' }, 
+        headerTintColor: '#FF69B4',
+        headerBackTitle: 'Back' 
+        }}/>
+      <Stack.Screen
+        name="settings"
+        options={{
+          headerTitle: 'Settings',
+          headerStyle: { backgroundColor: '#0F0A18' },
+          headerTintColor: '#FF69B4',
+          headerBackTitle: 'Back'
+        }}/>
     </Stack>
   );
-}
+};
