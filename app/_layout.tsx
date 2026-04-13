@@ -12,14 +12,6 @@ export default function RootLayout() {
         headerTintColor: '#FF69B4',
         headerBackTitle: 'Back' 
         }}/>
-      <Stack.Screen
-        name="settings"
-        options={{
-          headerTitle: 'Settings',
-          headerStyle: { backgroundColor: '#0F0A18' },
-          headerTintColor: '#FF69B4',
-          headerBackTitle: 'Back'
-        }}/>
     </Stack>
   );
 };
