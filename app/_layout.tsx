@@ -7,11 +7,21 @@ export default function RootLayout() {
       <Stack.Screen 
         name="scenes" 
         options={{ 
-        headerTitle: 'Movie Scenes', 
-        headerStyle: { backgroundColor: '#0F0A18' }, 
-        headerTintColor: '#FF69B4',
-        headerBackTitle: 'Back' 
-        }}/>
+          headerTitle: 'Movie Scenes', 
+          headerStyle: { backgroundColor: '#0F0A18' }, 
+          headerTintColor: '#FF69B4',
+          headerBackTitle: 'Back' 
+        }}
+      />
+      <Stack.Screen
+        name="settings"
+        options={{
+          headerTitle: 'Edit Profile',
+          headerStyle: { backgroundColor: '#0F0A18' },
+          headerTintColor: '#d9a3fb',
+          headerBackTitle: 'Profile'
+        }}
+      />
     </Stack>
   );
-};
+}
