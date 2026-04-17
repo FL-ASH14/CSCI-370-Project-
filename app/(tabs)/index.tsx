@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-//import * as Location from 'expo-location';
 import * as Notifications from "expo-notifications";
 
 
@@ -20,14 +19,35 @@ Notifications.setNotificationHandler({
     shouldPlaySound: true,
     shouldSetBadge: false,
     shouldShowBanner: false,
-    shouldShowList: false,
+    shouldShowList: false
   }),
-}); // end notificationHandler
-
+});
 
 export default function Home() {
   const router = useRouter();
   
+
+  // request notif permissions
+  useEffect(() => {
+    const requestNotifPermissions = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if(status !== 'granted') {
+        Alert.alert('Permission required', 'Enable notifications');
+      }
+    };
+    requestNotifPermissions();
+  }, []); // end useEffect
+
+  // send notif
+  const sendFavNotif = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Favorites",
+        body: "Added to Favorites",
+      },
+      trigger: null,
+    });
+  }; // end sendFavNotif
 
   // go to scenes screen when movie is clicked
   const renderMovieCard = ({ item }: { item: any }) => (
@@ -42,6 +62,13 @@ export default function Home() {
         source={{ uri: item.imageUrl }} 
         style={styles.posterImage}
       />
+
+      <TouchableOpacity
+        style={styles.favButton}
+        onPress={sendFavNotif}
+      >
+        <Text style={styles.favText}>fav: </Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   ); // end renderMovieCard
 
@@ -94,5 +121,17 @@ const styles = StyleSheet.create({
     width: '100%', 
     height: '100%', 
     resizeMode: 'cover' 
+  },
+  favButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'red',
+    padding: 8,
+    borderRadius: 20
+  },
+  favText: {
+    fontSize: 18,
+    color: 'white',
   }
 });
