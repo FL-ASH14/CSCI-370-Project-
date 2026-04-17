@@ -52,7 +52,7 @@ export default function Home() {
   return (
     // layout view of movies 
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Trending Movies</Text>
+      <Text style={styles.headerTitle}>Welcome To Film Finder</Text>
       
       <FlatList
         data={moviesData}
@@ -75,11 +75,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15 
   },
   headerTitle: { 
-    color: 'white', 
-    fontSize: 24, 
+    color: '#FF69B4',     
+    fontSize: 30,         
     fontWeight: 'bold', 
     marginTop: 25, 
-    marginBottom: 20 
+    marginBottom: 20,
+    textAlign: 'center'  
   },
   listPadding: { 
     paddingBottom: 30 
