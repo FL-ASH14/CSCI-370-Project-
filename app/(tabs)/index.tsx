@@ -1,39 +1,48 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Alert, Linking } from 'react-native';
 import { useRouter } from 'expo-router';
-
+import React, { useEffect } from 'react';
+import * as Notifications from "expo-notifications";
 
 const moviesData = [
-  { // star wars
-    id: '1',
-    imageUrl: 'https://specials-images.forbesimg.com/imageserve/65f7875b62d7ee03f5c98b3f/960x0.jpg', 
-  },
-  { // harry potter
-    id: '2',
-    imageUrl: 'https://m.media-amazon.com/images/I/718OJKgQOcL._AC_SL1024_.jpg',
-  },
-  { // the notebook
-    id: '3',
-    imageUrl: 'https://m.media-amazon.com/images/M/MV5BZjE0ZjgzMzYtMTAxYi00NGMzLThmZDktNzFlMzA2MWRmYWQ0XkEyXkFqcGc@._V1_.jpg',
-  },
-  { // fast and furious
-    id: '4',
-    imageUrl: 'https://m.media-amazon.com/images/M/MV5BMTQ2NTMxODEyNV5BMl5BanBnXkFtZTcwMDgxMjA0MQ@@._V1_.jpg',
-  },
-  { // truman show
-    id: '5',
-    imageUrl: 'https://s3.amazonaws.com/nightjarprod/content/uploads/sites/192/2023/08/15115111/vuza0WqY239yBXOadKlGwJsZJFE.jpg',
-  },
-  { // lightning thief
-    id: '6',
-    imageUrl: 'https://m.media-amazon.com/images/M/MV5BZDE4M2ZiYzEtODJiZC00NmI1LWFlNTgtOGJlNTY3NmExYWNjXkEyXkFqcGc@._V1_.jpg',
-  }
-]; // end moviesData
+  { id: '1', imageUrl: 'https://specials-images.forbesimg.com/imageserve/65f7875b62d7ee03f5c98b3f/960x0.jpg' },
+  { id: '2', imageUrl: 'https://m.media-amazon.com/images/I/718OJKgQOcL._AC_SL1024_.jpg' },
+  { id: '3', imageUrl: 'https://m.media-amazon.com/images/M/MV5BZjE0ZjgzMzYtMTAxYi00NGMzLThmZDktNzFlMzA2MWRmYWQ0XkEyXkFqcGc@._V1_.jpg' },
+  { id: '4', imageUrl: 'https://m.media-amazon.com/images/M/MV5BMTQ2NTMxODEyNV5BMl5BanBnXkFtZTcwMDgxMjA0MQ@@._V1_.jpg' },
+  { id: '5', imageUrl: 'https://s3.amazonaws.com/nightjarprod/content/uploads/sites/192/2023/08/15115111/vuza0WqY239yBXOadKlGwJsZJFE.jpg' },
+  { id: '6', imageUrl: 'https://m.media-amazon.com/images/M/MV5BZDE4M2ZiYzEtODJiZC00NmI1LWFlNTgtOGJlNTY3NmExYWNjXkEyXkFqcGc@._V1_.jpg' }
+];
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true, 
+    shouldShowList: true
+  }),
+});
 
 export default function Home() {
   const router = useRouter();
+  
+  //This gives an alert to enable notifications and links to Settings if permissions are denied
+  useEffect(() => {
+    const requestNotifPermissions = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      
+      if (status !== 'granted') {
+        Alert.alert(
+          "Notifications Disabled",
+          "Please go to your phone settings and enable notifications.",
+          [
+            { text: "Cancel", style: "cancel" },
+            { text: "Open Settings", onPress: () => Linking.openSettings() }
+          ]
+        );
+      }
+    };
+    requestNotifPermissions();
+  }, []);
 
-  // go to scenes screen when movie is clicked
   const renderMovieCard = ({ item }: { item: any }) => (
     <TouchableOpacity 
       style={styles.cardWrapper}
@@ -42,17 +51,14 @@ export default function Home() {
         params: { movie: item.id }
       })}
     >
-      <Image 
-        source={{ uri: item.imageUrl }} 
-        style={styles.posterImage}
-      />
+      <Image source={{ uri: item.imageUrl }} 
+      style={styles.posterImage} />
     </TouchableOpacity>
-  ); // end renderMovieCard
+  );
 
   return (
-    // layout view of movies 
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>Welcome To Film Finder</Text>
+      <Text style={styles.headerTitle}>Welcome to Film Finder</Text>
       
       <FlatList
         data={moviesData}
@@ -64,23 +70,18 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
       />
     </View>
-  ); // end return
-}; // end home
-
+  );
+}
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: '#0F0A18', 
-    paddingHorizontal: 15 
-  },
+  container: { flex: 1, backgroundColor: '#0F0A18', paddingHorizontal: 15 },
   headerTitle: { 
-    color: '#FF69B4',     
-    fontSize: 30,         
+    color: '#FF69B4', 
+    fontSize: 32, 
     fontWeight: 'bold', 
-    marginTop: 25, 
+    marginTop: 40, 
     marginBottom: 20,
-    textAlign: 'center'  
+    textAlign: 'center'
   },
   listPadding: { 
     paddingBottom: 30 

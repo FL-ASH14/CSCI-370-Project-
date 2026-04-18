@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../supabase'; 
+import * as Notifications from "expo-notifications";
 
 export default function ScenesScreen() {
   const router = useRouter();
@@ -61,13 +62,22 @@ export default function ScenesScreen() {
         await supabase.from('favorites').delete().eq('scene_id', sceneId);
       } else {
         await supabase.from('favorites').insert({ scene_id: sceneId });
+        
+        // The notification alert 
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: "Location Saved!",
+            body: "This scene has been successfully added to your profile.",
+          },
+          trigger: null,
+        });
       }
 
     } catch (error) {
       console.error('Error saving to cloud:', error);
     }
   };
-
+  
   let displayTitle = 'Movie Locations';
   if (movie === '1') {
     displayTitle = 'Star Wars Locations';
