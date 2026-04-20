@@ -1,5 +1,6 @@
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useRouter, Stack } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -29,6 +30,8 @@ const savedLoc = [
 
 export default function Screen() {
   const router = useRouter();
+  const [favoriteScenes, setFavScenes] = useState<any[]>([]);
+
 
   return ( 
     <ScrollView style={styles.container}

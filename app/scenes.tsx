@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const starWarsScenes = [
@@ -174,9 +175,8 @@ const lightningThiefScenes = [
 
 export default function ScenesScreen() {
   const router = useRouter();
+  const { movie } = useLocalSearchParams();
   
-  //Read the movie ID that the Home page sent over
-  const { movie } = useLocalSearchParams(); 
 
   //Setup placeholder variables
   let displayData = starWarsScenes;
@@ -224,9 +224,11 @@ export default function ScenesScreen() {
       <Image source={{ uri: item.imageUrl }} style={styles.cardImage} resizeMode="cover" />
       
       <View style={styles.cardBanner}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardLocation}>{item.location}</Text>
-        <Text style={styles.cardDescription}>{item.description}</Text>
+        <View style={styles.textColumn}>
+          <Text style={styles.cardTitle}>{item.title}</Text>
+          <Text style={styles.cardLocation}>{item.location}</Text>
+          <Text style={styles.cardDescription}>{item.description}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -280,6 +282,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#2a0a40', 
     borderBottomLeftRadius: 15, 
     borderBottomRightRadius: 15 
+  },
+  textColumn: {
+    flex: 1,
+    paddingRight: 10
+  },
+  heartButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 10
   },
   cardTitle: { 
     color: 'white', 
