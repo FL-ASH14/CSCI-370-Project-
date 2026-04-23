@@ -5,12 +5,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../supabase'; 
 import * as Notifications from "expo-notifications";
 
+interface Scene {
+  id: string;
+  movie_id: string;
+  title: string;
+  image_url: string; 
+  latitude: number;
+  longitude: number;
+  location: number;
+  description: string;
+}
+
 export default function ScenesScreen() {
   const router = useRouter();
   const { movie } = useLocalSearchParams();
 
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [scenesData, setScenesData] = useState<any[]>([]);
+  const [scenesData, setScenesData] = useState<Scene[]>([]);
 
   useEffect(() => {
     loadScenes();
@@ -100,7 +111,7 @@ export default function ScenesScreen() {
     });
   };
 
-  const renderSceneCard = ({ item }: { item: any }) => {
+  const renderSceneCard = ({ item }: { item: Scene }) => {
     const isFavorite = favorites.includes(item.id);
 
     return (

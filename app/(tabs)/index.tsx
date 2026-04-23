@@ -3,6 +3,11 @@ import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import * as Notifications from "expo-notifications";
 
+interface Movie {
+  id: string;
+  imageUrl: string;
+}
+
 const moviesData = [
   { id: '1', imageUrl: 'https://specials-images.forbesimg.com/imageserve/65f7875b62d7ee03f5c98b3f/960x0.jpg' },
   { id: '2', imageUrl: 'https://m.media-amazon.com/images/I/718OJKgQOcL._AC_SL1024_.jpg' },
@@ -43,7 +48,7 @@ export default function Home() {
     requestNotifPermissions();
   }, []);
 
-  const renderMovieCard = ({ item }: { item: any }) => (
+  const renderMovieCard = ({ item }: { item: Movie }) => (
     <TouchableOpacity 
       style={styles.cardWrapper}
       onPress={() => router.push({
@@ -59,7 +64,6 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <Text style={styles.headerTitle}>Welcome to Film Finder</Text>
-      
       <FlatList
         data={moviesData}
         keyExtractor={(item) => item.id}

@@ -4,6 +4,14 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { supabase } from '../../supabase';
 
+interface MapMarker {
+  id:string;
+  movie_id: string;
+  latitude: number;
+  longitude: number;
+  title?: string;
+}
+
 export default function MapScreen() {
   const router = useRouter();
   const mapRef = useRef<MapView>(null);
@@ -11,7 +19,7 @@ export default function MapScreen() {
   const params = useLocalSearchParams();
   const { lat, lng } = params;
 
-  const [locations, setLocations] = useState<any[]>([]);
+  const [locations, setLocations] = useState<MapMarker[]>([]);
 
   // Fetches all the scenes from Supabase when the map loads
   useEffect(() => {

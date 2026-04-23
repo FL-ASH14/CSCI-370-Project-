@@ -2,8 +2,17 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter, useFocusEffect } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
-import { supabase } from '../../supabase';
+import { supabase } from '../../supabase'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface Scene {
+  id: string;
+  movie_id: string;
+  title: string;
+  image_url: string; 
+  latitude: number;
+  longitude: number;
+}
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -15,7 +24,7 @@ export default function ProfileScreen() {
   const [favMovie, setFavMovie] = useState("");
   const [favShow, setFavShow] = useState("");
 
-  const [favoriteScenes, setFavoriteScenes] = useState<any[]>([]);
+  const [favoriteScenes, setFavoriteScenes] = useState<Scene[]>([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -59,7 +68,14 @@ export default function ProfileScreen() {
       console.error('Error loading favorites:', error);
     }
   };
-
+const handleLogout = async () => {
+    // This tells the cloud and the SecureStore to destroy the token
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      console.error("Error logging out:", error.message);
+    }
+  };
   return ( 
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 60 }}>
       
@@ -114,6 +130,9 @@ export default function ProfileScreen() {
             ))}
           </ScrollView>
         )}
+         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Log Out</Text>
+      </TouchableOpacity>
       </View>
 
     </ScrollView>
@@ -204,4 +223,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontStyle: 'italic',
   },
+  logoutButton: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#FF69B4',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginTop: 30,
+    marginBottom: 20
+  },
+  logoutButtonText: {
+    color: '#FF69B4',
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
 });
